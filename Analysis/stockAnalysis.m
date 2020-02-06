@@ -7,7 +7,7 @@ for i=1:size(stock,1)
 end
 %date=datetime(stock{:,2},'InputFormat','dd-MMM-yyyy');
 
-stock_num=cell2mat(stock(:,[7,8,10,16,17,19,25,26,28]));
+stock_num=cell2mat(stock(:,[6,7,8,15,16,17,24,25,26]));
 data1=stock_num(:,1:3);
 data2=stock_num(:,4:6);
 data3=stock_num(:,7:9);
@@ -68,20 +68,20 @@ sigma3{i}=diag(sqrt(S3{i}));
 end
 figure
 for i=1:length(idx)
-    plot3(sigma1{i}(1),sigma1{i}(2),sigma1{i}(3),'r*')
-    hold on
-end
-for i=1:length(idx)
+    plot3(sigma1{i}(1),sigma1{i}(2),sigma1{i}(3),'r*')    
+    hold on    
+
     plot3(sigma2{i}(1),sigma2{i}(2),sigma2{i}(3),'ko')
-    
-end
-for i=1:length(idx)
+  
     plot3(sigma3{i}(1),sigma3{i}(2),sigma3{i}(3),'m+')
     
 end
+xlabel('Price')
+ylabel('Volume')
+zlabel('Split\_Coeff')
 grid on
 hold off
-
+legend('Boeing','Lockheed','BlackRock','Centroids','Location','NE')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,7 +96,7 @@ hold on;
 plot3(Data(idex==2,1),Data(idex==2,2),Data(idex==2,3),'b.','Markersize',12)
 plot3(Data(idex==3,1),Data(idex==3,2),Data(idex==3,3),'g.','Markersize',12)
 plot3(C(:,1),C(:,2),C(:,3),'mx','MarkerSize',15,'Linewidth',3)
-legend('Boeing','Lockheed','BlackRock','Centroids','Location','NE')
+legend('Cluster 1','Cluster 2','Cluster 3','Centroids','Location','NE')
 title('Kmeans Cluster SVD Assignment')
 hold off
 grid on
