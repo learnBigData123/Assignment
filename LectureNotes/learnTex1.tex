@@ -7,14 +7,13 @@
 \usepackage{amsmath}\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
 \usepackage{tikz}								% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{amssymb}
+\usepackage{subcaption}%SetFonts
 
 %SetFonts
 
-%SetFonts
 
-
-\title{Brief Article}
-\author{The Author}
+\title{Lecture Note }
+\author{Yiping Lu, Jody Shu and Jashaina Thomas}
 %\date{}							% Activate to display a given date or no date
 
 \begin{document}
@@ -24,32 +23,33 @@
 
  \textbf{\Large Recall}\\
  \\
+ \begin{Large}
      P(t)   $\leftarrow$ price\\
      V(t)   $\leftarrow$ volume\\
      S(t)   $\leftarrow$ sensitivity\\
      C(t)   $\leftarrow$ cash flow\\
      Sh(t) $\leftarrow$ sharpe ratio\\
-     \ldots\\
+     \vdots\\
      many more\\
+     \\
   ${\Large N\choose K}$\\   
+  
+
 \begin{figure}[htbp]
 
 \begin{tikzpicture}
 
 \draw (1,0) -- (0,0) -- (0,1);
 \node at (1,0) [right]  {$P$};
-\node at (0,1) [left] {$V$};
+\node at (0,1) [left] {$V$}      ;
 \end{tikzpicture}
 \end{figure}
 
 ${\Large N\choose 2}$\\
-\\
 \begin{figure}[htbp]
-
 \begin{tikzpicture}
 \draw (0,0) -- (-0.5,-0,2);
 \draw (1,0) -- (0,0) -- (0,1);
-
 \node at (1,0) [right]  {$P$};
 \node at (0,1) [left] {$S$};
 \node at (-0.5,-0.2)[left]{$V$};
@@ -57,7 +57,7 @@ ${\Large N\choose 2}$\\
 \end{figure}
 \\
 ${\Large N\choose 3}$\\\\
-\begin{Large}
+
 $X_i=\frac{P_i -P_{i-1}}{P_i} ,  P_i=P(t_i)$ ,
 $Y_i=\frac{V_i -V_{i-1}}{V_i},  V_i=V(t_i)$ \\
 
@@ -90,24 +90,37 @@ Recall: (Theorem) A symmetric matrix is non-negative definite if and only if all
 So $\sigma_i = \sqrt{\lambda_i}\Leftrightarrow\Vec{V_i}$, where $\sigma_i$ are called singular values of $\mathbf{X}$.
 
 
-\section*{Example}
-We can use daily price data for two stocks  to perform analysis. To do this form a martix of the price data for the two stocks for every month. Follow the "left side" approach. Find the singular values ($\sigma_1^k$,$\sigma_2^k$).\\
+\section*{Your HW Example}
+We can use daily price data for two stocks  to perform analysis. To do this form a martix of the price data for the two stocks for every month. Follow the "left side" approach. Find the singular values ($\sigma_1^k$,$\sigma_2^k$). k=1,2,...\\
  v1 = [cos$\theta$ ,sin$\theta$ ] v2 = [-sin$\theta$,cos$\theta$]\\
 
+\begin{figure}
+  \includegraphics[width=50mm,scale=0.5]{ScreenShot.png}
+\end{figure}
+
+\begin{tabular}{p{5cm}c}
+
+\includegraphics[width=50mm,scale=0.5]{Image002.png}
+&
 $\begin{pmatrix}
 cos\theta & -sin\theta\\
 sin\theta& cos\theta    
-\end{pmatrix}$= $e^{i\theta}$, \{$e^{i\theta}$\textbar0$\leq\Theta\leq2\pi\}$=s
+\end{pmatrix}$= $e^{i\theta}$, \{$e^{i\theta}$\textbar0$\leq\Theta\leq2\pi\}$ = S'
 
+\end{tabular}
+
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[b]{0.3\linewidth}
+ \includegraphics[width=50mm,scale=0.5]{Image003.png}
+  \end{subfigure}
+ \begin{subfigure}[b]{0.6\linewidth}
+    \includegraphics[width=80mm,scale=0.8]{Image004.png}
+ 
+  \end{subfigure}
+  
+\end{figure}
 
 \end{Large}
-
-
-
-
-
-
-
-
 
 \end{document}  
