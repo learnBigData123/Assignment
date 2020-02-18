@@ -1,0 +1,37 @@
+\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+\setlength{\parindent}{0pt}								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+
+%SetFonts
+
+%SetFonts
+
+
+\title{Write Poisson Distribution into Exponential Family}
+\author{Jody Shu}
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\begin{Large}
+Poisson Distribution:\\
+\\
+\hspace{30pt}f(k;$\lambda$) = P(X = k ) = $\frac{\lambda^{k}e^{-\lambda}} {k!}
+=\frac{1}{k!} e^{\log_{e}\lambda^{k}}e^{-\lambda}
+=\frac{1}{k!} e^{(k\log_{e}\lambda)-\lambda}$\\
+Now, force into Exponential family...\\
+$\rightarrow T(y)=k$\\
+$\rightarrow \zeta = \log_{e}\lambda$\\
+$\rightarrow b(y) = \frac{1}{y!}$\\
+$\rightarrow a(\zeta)=\lambda=e^{\zeta}$\\
+$\Rightarrow P(y;\zeta)=\frac{1}{y!}e^{(y\zeta-e^{\zeta})}$
+
+\end{Large}
+\end{document}  
