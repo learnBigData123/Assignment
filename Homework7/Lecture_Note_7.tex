@@ -1,19 +1,12 @@
-\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
-\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
-\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
-%\geometry{landscape}                		% Activate for rotated page geometry
-%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
-\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
-								% TeX will automatically convert eps --> pdf in pdflatex		
-\usepackage{amssymb}
-
-%SetFonts
-
-%SetFonts
-\setlength{\parindent}{0pt}
-
-\title{Lecture Note 7 }
-\author{Yiping Lu, Jody Shu and Jashaina Thomas}
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry} 
+\geometry{letterpaper}
+\usepackage{graphicx}	
+\usepackage{amssymb}\setlength{\parindent}{0pt}
+\title{HW7-Notes}
+\date{March 2020}
+\author{Yiping Lu and Jody Shu}
 
 %\date{}							% Activate to display a given date or no date
 
@@ -46,14 +39,16 @@ p(y=0$\mid y; \theta)=1-h_\theta (x) \geq 0 \ (0 \leq h_\theta (x) \leq 1)$
 \\
 Next, we are going to write the prob. fcn into one equation.
 
-
-
-
-
-
-
-
-
+$p(y\mid x; \theta)=h_\theta(x)^y(1-h_\theta(x))^{1-y}\\
+y=1\Rightarrow p(y=1\mid x; \theta)=h_\theta(x)^1(1-h_\theta(x))^{0}\\
+y=0\Rightarrow p(y=0\mid x; \theta)=1-h_\theta(x)\\
+L(\theta)=p(y=0\mid x; \theta)=\prod_{i} p(y^{i}\mid x^{i}; \theta)=\prod_{i} h_\theta(x^{i})^{y^{i}}(1-h_\theta(x^{i}))^{1-y^{i}})$\\
+It is much easier to maximize the log likelihood.\\
+$l(\theta)=log L(\theta)=\sum_{i} [y^{i}log h_\theta(x^{i})+(1-y^{i})log (1-h_\theta(x^{i}))]\\$
+How to maximize it? Use (stochastic) gradient descent.\\
+$\theta:=\theta\bigoplus\alpha\nabla_\theta l(\theta)$\\
+$\bigoplus$: along with the gradient direction.\\
+$\frac{\partial }{\partial \theta_j} l(\theta) = \sum_{i=1}^{n} (y^{i}-h_\theta(x^{i}))x_j^{i} $
 
 \end{Large}
 \end{document}
