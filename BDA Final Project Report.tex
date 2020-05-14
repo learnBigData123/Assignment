@@ -1,0 +1,257 @@
+\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+
+
+\usepackage{placeins}
+
+
+%SetFonts
+
+%SetFonts
+
+
+\title{Stock Market Prediction \\ Big Data Analysis Final Project}
+\author{Jashaina Thomas \& Sarah Lu}
+\date{May 12, 2020}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+%\section{}
+%\subsection{}
+\section{Executive Summary} \
+
+Exec summary
+This report focuses on stock market prediction through mathematical modeling and big data analysis. The models discussed are mainly based on Natural Language Processing (NLP) algorithms as this topic was a very relevant one covered in this Big Data Analysis course. These models include Linear Regression, Support Vector Regression, Recurrent Neural Network, and Latent Dirichlet Allocation (LDA) models. The overall conclusions in this report are drawn using LDA topic modeling and sentiment analysis based on recent stock related data collected from twitter. 
+ 
+
+\section{Introduction} \
+
+ Apple Inc. is an American international technology company which creates and sells electronics, software, and online services. It is considered one of the Big Five technology companies, alongside Microsoft, Amazon, Google, and Facebook. Apple (APPL) stock trades on the NASDAQ and is pretty highly valued, with a closing price of about \$311.41 per share as of May 12, 2020. However, due to current the current COVID-19 pandemic, the stock market has been volatile over the past few months and APPL stock has not been much of an exception. 
+
+  In this work not only we out to build a sufficient model to predict APPL stock price but more importantly draw conclusions on global sentiment about this stock during this uncertain time. The following section includes an exploration of the data used to build our models and perform our analysis. The succeeding section is dedicated to the theory methodology used to complete this project, followed by the analysis and results, and conclusion sections. 
+
+
+\newpage
+
+\section{Data} \
+
+\subsection{Description} \
+
+ There are two data sets included in this project. One data set was used to build the Apple stock price prediction models while the other was used for the topic modeling and sentiment analysis. Although it took some time to gain access to the Twitter developer API, we were more successful in collecting quality data to perform relevant sentiment analysis on Apple stock than were were in collecting actual current stock data due to access and time constraints.
+
+  The dataset used to build our Apple stock price prediction models is from kaggle.com; kaggle.com/dgawlik/nyse provided us with financial data for SP 500 companies. We used two of four files available to us. The prices.csv file gives daily trading prices from 2010 to the end 2016 (date range is shorter for companies new on stock market). The prices-split-adjusted.csv file is similar to the prices.csv, except it includes adjustments for stock splits. The securities.csv file gives general description of each company with division based on sectors. The fundamentals.csv file provides popular fundamental indicators extracted from annual SEC 10K fill- ings to derive popular fundamental indicators. We chose to work with the prices.csv and the securities.csv files.
+
+  The price.csv file contains 851,246 stock data points and the securities.csv file contains 505 data points about company information. There are 7 variables used in our study, described as follows:
+
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ Name & Description \\ 
+ \hline
+ Date & Date and time of the trading information \\ 
+ \hline
+ Symbol & Unique stock symbol that identify each stock \\ 
+ \hline
+ Open & Last price anyone paid for a stock during the business day \\ 
+ \hline
+ Close &  Price from the first transaction of a business day  \\ 
+ \hline
+ Low & Lowest traded price for a stock during the business day  \\
+ \hline
+ High & Highest traded price for a stock during the business day  \\ 
+ \hline
+ Volume & Total quantity of shares traded for a stock \\ 
+ \hline
+ GICS Sector & Industry in which the company operates.  \\ 
+
+ \hline
+\end{tabular}
+\end{center}
+
+  The dataset used to perform topic modeling and sentiment analysis consists of 7877 tweets from the past 7 days as of may 13, 2020. We have preferred to have more tweets to work with but this is data we have access to at this time. This data was collected directly from the Twitter developer API. We mined tweets related to Apple stock for the purpose of our analysis.
+
+\newpage
+
+\subsection{Data Exploration} \
+
+ We will take a more thorough look at the twitter data used for our analysis here. 
+ 
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=5in,height=13cm]{"plot 1".png} 
+   %\caption{...}
+   %\label{Reliq Health Technologies Inc.}
+\end{figure}
+
+\FloatBarrier
+
+
+
+  We can visualize the frequency of tweets over time by aggregating the number of tweets over three-hour intervals as shown in figure 1. We can see there was a fair amount of daily posting activity related to Apple stocks. The number of tweets related to Apple stocks posted within a three hour time frame was well over 200 several times this past week. One interval had over 300 tweets while a couple had very few.
+  
+\begin{figure}[h] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=4.5in,height=13.5cm]{"plot 2".png} 
+   %\caption{...}
+   %\label{fig:example}
+\end{figure}
+
+\FloatBarrier
+
+To get an idea of what individuals are tweeting about we can take a look at the frequency of unique words found in the tweets collected, we see that "stock", "apple", and "facebook" are among the top five. This is not surprising given that we have mined tweets about specifically apple stocks. Words insignificant words such as "the" are ignored here. \\
+
+Next we are interested in visualizing all of the relationships among all words simultaneously. As one common visualization, we can arrange the words into a network graph. We found the top paired words that occur together in tweets and included them in a network showing their relationship to one another. Words included appeared in pairs at least 20 times. This visualization is included on the next page. We can see that terms such as "appl",“stock”, “price”, “rise” and “disney" are close to each other in this network. 
+
+\begin{figure}[!h] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=6in]{"plot 3".png} 
+   \caption{...}
+   \label{fig:example}
+\end{figure} 
+
+\FloatBarrier
+
+
+
+
+
+\section{Models \& Methodology} \
+
+\subsection{Prediction Using Support Regression Model} \
+
+The first task we set out to do is predict stock price. Because there are a lot of factors that can influence the stock market, the stock price prediction problem has always been very complicated. Support Vector Regression is a tool from machine learning that can build a regression model based on the historical time series data in the purpose of predicting the future trend of the stock price. We did this by running a local support vector regression on every five days of data to develop a model to fit our data. Apple stocks price is predicted based on its daily opening, closing, high, and low prices along with its volume and sector. 
+
+\subsection{Prediction Using Recurrent Neural Network Model} \
+
+A Recurrent Neural Network (RNN) is a type of neural network well-suited to time series data and have proved to be one of the most powerful models for processing sequential data. RNNs process a time series step-by-step, maintaining an internal state summarizing the information they've seen so far. In this project, we construct RNN with the Long Short-Term Memory (LSTM) approach to predict Apple stock prices. Our LSTM model consists of a sequential input layer followed by 2 LSTM layers and a dense output layer with linear activation function.
+
+\subsection{Latent Dirichlet Allocation Topic Modeling} \
+
+Latent Dirichlet allocation (LDA) is a topic model which allows sets of observations to be explained by unobserved groups showing how some parts of the data are similar. In this case, the data points are words collected into documents which are tweets. Each document is a mixture of 5 topics and each word's presence is attributable to one at least of the document's topics. In LDA the topic distribution is assumed to have a sparse Dirichlet prior. The sparse Dirichlet priors encode the intuition that documents cover only a small set of topics and that topics use only a small set of words frequently. This results in a better rehashing of words and a more precise assignment of documents to topics.
+
+\subsection{Sentiment Analysis} \
+
+Sentiment analysis is the interpretation and classification of emotions (positive, negative and neutral) within text data using text analysis techniques. This analysis allows one to identify sentiment toward products, brands or services in online conversations and feedback. We focus on sentiments towards Apple stock found in online conversation on Twitter, in this example.
+\newpage
+
+\section{Analysis \& Results}\
+
+\subsection{Prediction Model Evaluation Metrics}\
+
+ We will focus on the performance of our prediction models rather than the output as the input data available to us was not ideal for our purposes. The following indicators evaluate the performance of our local support vector regression and recurrent neural network prediction models:\\
+
+\begin{figure}[!h] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=5in]{"plot 9".png} 
+ % \caption{...}
+ %  \label{fig:example}
+\end{figure}
+
+
+ In a previous work we constructed a local linear regression (LR) model to predict stock price in a fashion similar to our support vector regression (SVR) model discussed in this report so we have included the results of that model just for comparison. We can see by the R-squared metric that the SVR model performs the best. However based on the error metrics, the recurrent neural network performed the best. An R-squared score of 0.9881 suggests that approximately 98.81\% of the variation in the dependent variable, which is closing stock price, is explained by the variables we included in our SVR model. These indicators suggest that our model gives an accurate prediction of the 5-day forward stock prices we set out to predict. These are very good results. Comparing the RNN and SVR models, one may prefer higher R-squared to a lower mean squared error if they are more concerned with the meaningfulness of model. In this case, the SVR model is preferable. On the other hand, one might prefer the lower MSE if accuracy is more of a concern in which they would prefer the RNN model.
+
+\newpage
+\subsection{Topic Modeling \& Sentiment Analysis Results}\
+
+Next, we will take a look at the Latent Dirichlet Allocation topic modeling results. To analyze the twitter data we conctructed a five-topic LDA model. We can interpret the model by extracting the per-topic-per-word probabilities, called  $\beta$ "beta". The  per-topic-per-word probabilities are shown below for some of the words in topic 1. For example, we can observe that the term “apple” has 0.0894 probability of being generated from topic 1. \\
+
+We can also extract the per-document-per-topic probabilities, called $\gamma$ "gamma". This is the estimated proportion of words from that document that are generated from that topic. As mentioned earlier, each document is a tweet in this case and there are many so the probabilities can be pretty small. Typically topic modeling will have far more words than documents so our $\gamma$ values are not as interesting or useful for this case.
+
+\begin{figure}[!h] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=2.5in,height=3in]{"plot 10".png} 
+   \includegraphics[width=2.5in,height=3in]{"plot 11".png}
+%  \caption{...}
+ %  \label{fig:example}
+\end{figure}
+
+\FloatBarrier 
+
+Now that we have the per-topic-per-word probabilities we can take a look at the top terms among each topic. The next page includes plots corresponding to the top 15 words that are most common within each of the five topics based on their $\beta$ value. All topics appear relevant to Apple stock accept topic five based the top words included in the plot (Does not include "apple", "appl"). 
+
+\begin{figure}[!h] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=6in]{"plot 4".png} 
+  %\caption{...}
+ %  \label{fig:example}
+\end{figure}
+
+\FloatBarrier
+
+We can now perform sentiment analysis based on top the terms found in each of the five topics using different sentiment lexicons.
+
+\begin{figure}[! h] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=4.5in,height=13cm]{"plot 5".png} 
+ %  \caption{example caption}
+ %  \label{fig:example}
+\end{figure}
+
+\FloatBarrier
+
+This graph shows the sentiments of key words included in the top tweets. These terms have been classifies as either negative or positive sentiments and are plotted against their contribution to that sentiment. Ignoring "free" as it was included in topic 5 which did not seem related, we see that "losses" contributed to less negative sentiment while "top"and "easy" contributed to more positive sentiment.
+
+\begin{figure}[! h] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=4.5in,height=15cm]{"plot 6".png} 
+ %  \caption{example caption}
+  % \label{fig:example}
+\end{figure}\
+
+\FloatBarrier
+
+This graph also shows the sentiments of key words included in the top tweets. These terms have been classifies as either negative, positive, and other sentiments and are plotted against their contribution to that sentiment. We can see that many terms here contribute to the anticipation, positive and trust sentiments. Most of the sentiments found among the top words here are positive sentiments except for "negative" associated with the term "stocks" and fear associated with the term "watch". 
+
+\begin{figure}[! h] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=4.5in,height=13cm]{"plot 7".png} 
+   %\caption{example caption}
+  % \label{fig:example}
+\end{figure}
+
+\FloatBarrier
+
+This graph also shows the sentiments of key words included in the top tweets. These terms have been classifies as either negative, positive, and litigious, and are plotted against their contribution to that sentiment. We can see that the few terms here contribute to all three sentiments. The negative and litigious sentiments here can be viewed as negative sentiments for our purposes.
+
+\begin{figure}[! h] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=4.5in,height=13cm]{"plot 8".png} 
+ %  \caption{example caption}
+  % \label{fig:example}
+\end{figure}\
+
+
+\FloatBarrier
+
+This graph also shows the sentiments of key words included in the top tweets but in a different format. The sentiment lexicon used rates terms for valence with an integer between minus five (negative) and plus five (positive). These terms have been classifies as either negative, positive on a sliding scale,  and are plotted against their contribution to that sentiment. We can see that all of the terms here contribute to  positive  sentiment as they are all valued above zero.
+
+\newpage
+
+\section{Conclusion}\
+
+We have built several sufficient models to predict Apple stock price and drawn some basic conclusions on current global sentiment towards this stock. Based on our analysis and results we find that although there was some negative sentiment, the overall sentiment towards Apple stock is positive over the past seven days according to twitter data. There also appears to be some degree of uncertainly accompanied with emotions such as fear and litigious. This is expected as the entire stock market is currently displaying a decrease in value and an increase volatility. It would be valuable to further derive and plot sentiment towards Apple stock over time to see how the current COVID-19 crisis may has had an affect. \\
+ 
+ Since only a certain amount of data was accessible for this project due to time and access constraints, it would be a major improvement to be able to collect more tweets at a time from a longer time period since they are extremely short documents and there are so many available. Finding a way to include sentiment analysis output in stock price prediction models like the ones described in this work is a complex but could also be extremely beneficial. Lastly, given more time we have liked to attempt combining documents from data sources other than just Twitter such as Bloomberg or Yahoo Finance news to further improve the quality of our data.
+
+   
+ \newpage  
+
+\section{Appendix}\
+
+\subsection{References}\
+
+https://www.kaggle.com/dgawlik/nyse \\
+
+\end{document}  
